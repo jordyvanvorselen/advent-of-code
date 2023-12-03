@@ -1,31 +1,12 @@
-package main
+package part2
 
 import (
-	"bufio"
-	"fmt"
-	"os"
 	"strconv"
 	"strings"
 	"unicode"
 )
 
-func main() {
-	file, err := os.Open("2023/day-1/input/data")
-
-	if err != nil {
-		panic(err)
-	}
-
-	defer file.Close()
-
-	sc := bufio.NewScanner(file)
-	lines := make([]string, 0)
-
-	// Read through 'tokens' until an EOF is encountered.
-	for sc.Scan() {
-		lines = append(lines, sc.Text())
-	}
-
+func Run(lines []string) int {
 	var calibrationValues []int
 	foundFirst := false
 	first := ""
@@ -71,7 +52,7 @@ func main() {
 		sum += num
 	}
 
-	fmt.Println("Sum of calibration values: ", sum)
+	return sum
 }
 
 var spelledOutDigits = []string{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine"}

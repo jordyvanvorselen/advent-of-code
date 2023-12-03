@@ -1,9 +1,6 @@
-package main
+package part1
 
 import (
-	"bufio"
-	"fmt"
-	"os"
 	"strconv"
 	"strings"
 	"unicode"
@@ -26,15 +23,7 @@ type Group struct {
 	blue  int
 }
 
-func main() {
-	lines := readFile("2023/day-2/input/data")
-
-	sum := run(lines)
-
-	fmt.Println("Sum of game ids: ", sum)
-}
-
-func run(input []string) int {
+func Run(input []string) int {
 	rules := Rules{red: 12, green: 13, blue: 14}
 	var games []Game
 	var result int
@@ -110,24 +99,4 @@ func extractDigits(input string) int {
 
 	value, _ := strconv.Atoi(result)
 	return value
-}
-
-func readFile(path string) []string {
-	file, err := os.Open(path)
-
-	if err != nil {
-		panic(err)
-	}
-
-	defer file.Close()
-
-	sc := bufio.NewScanner(file)
-	lines := make([]string, 0)
-
-	// Read through 'tokens' until an EOF is encountered.
-	for sc.Scan() {
-		lines = append(lines, sc.Text())
-	}
-
-	return lines
 }

@@ -1,4 +1,4 @@
-package main
+package part2
 
 import (
 	"testing"
@@ -14,7 +14,7 @@ func TestRun(t *testing.T) {
 		"Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green",
 	}
 
-	result := run(input)
+	result := Run(input)
 
 	if result != expected {
 		t.Errorf("got %d but expected %d", result, expected)

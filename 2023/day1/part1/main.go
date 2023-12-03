@@ -1,30 +1,11 @@
-package main
+package part1
 
 import (
-	"bufio"
-	"fmt"
-	"os"
 	"regexp"
 	"strconv"
 )
 
-func main() {
-	file, err := os.Open("2023/day-1/input/data")
-
-	if err != nil {
-		panic(err)
-	}
-
-	defer file.Close()
-
-	sc := bufio.NewScanner(file)
-	lines := make([]string, 0)
-
-	// Read through 'tokens' until an EOF is encountered.
-	for sc.Scan() {
-		lines = append(lines, sc.Text())
-	}
-
+func Run(lines []string) int {
 	var calibrationValues []int
 
 	for _, line := range lines {
@@ -46,5 +27,5 @@ func main() {
 		sum += num
 	}
 
-	fmt.Println("Sum of calibration values: ", sum)
+	return sum
 }
