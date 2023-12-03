@@ -1,124 +1,100 @@
 package part1
 
 import (
-	"bufio"
-	"os"
+	"regexp"
 	"strconv"
-	"strings"
-	"unicode"
 )
 
-type Rules struct {
-	red   int
-	green int
-	blue  int
+type Symbol struct {
+	startIndex int
+	endIndex   int
 }
 
-type Game struct {
-	id     int
-	groups []Group
-}
-
-type Group struct {
-	red   int
-	green int
-	blue  int
+type PartNumber struct {
+	number     int
+	startIndex int
+	endIndex   int
 }
 
 func Run(input []string) int {
-	rules := Rules{red: 12, green: 13, blue: 14}
-	var games []Game
-	var result int
+	var sum int
 
-	for _, line := range input {
-		games = append(games, fromLine(line))
-	}
+	for i, line := range input {
+		var nearSymbols []Symbol
 
-	for _, game := range games {
-		if rules.allow(game) {
-			result = result + game.id
+		currentNumbers := findNumbers(line)
+		nearSymbols = append(nearSymbols, findSpecialCharacters(line)...)
+
+		if i != 0 {
+			nearSymbols = append(nearSymbols, findSpecialCharacters(input[i-1])...)
 		}
-	}
 
-	return result
-}
-
-func (rules Rules) allow(game Game) bool {
-	for _, group := range game.groups {
-		if rules.red < group.red || rules.green < group.green || rules.blue < group.blue {
-			return false
+		if (len(input) - 1) > i {
+			nearSymbols = append(nearSymbols, findSpecialCharacters(input[i+1])...)
 		}
-	}
 
-	return true
-}
-
-func fromLine(line string) Game {
-	splitLine := strings.Split(line, ":")
-
-	gameInfo := splitLine[0]
-	groupInfo := splitLine[1]
-
-	rawGroups := strings.Split(groupInfo, ";")
-
-	var finalGroups []Group
-	id := extractDigits(gameInfo)
-
-	for _, rawGroup := range rawGroups {
-		groups := strings.Split(rawGroup, ",")
-
-		var red int
-		var green int
-		var blue int
-
-		for _, group := range groups {
-			if strings.Contains(group, "red") {
-				red = red + extractDigits(group)
-			}
-
-			if strings.Contains(group, "green") {
-				green = green + extractDigits(group)
-			}
-
-			if strings.Contains(group, "blue") {
-				blue = blue + extractDigits(group)
+		for _, number := range currentNumbers {
+			if number.isValid(nearSymbols) {
+				sum = sum + number.number
 			}
 		}
-
-		finalGroups = append(finalGroups, Group{red, green, blue})
 	}
 
-	return Game{id: id, groups: finalGroups}
+	return sum
 }
 
-func extractDigits(input string) int {
-	var result string
-	for _, char := range input {
-		if unicode.IsDigit(char) {
-			result += string(char)
+func (partNumber PartNumber) isValid(nearSymbols []Symbol) bool {
+	for _, symbol := range nearSymbols {
+		if symbol.isAdjacentTo(partNumber) {
+			return true
 		}
 	}
 
-	value, _ := strconv.Atoi(result)
-	return value
+	return false
 }
 
-func readFile(path string) []string {
-	file, err := os.Open(path)
+func (symbol Symbol) isAdjacentTo(partNumber PartNumber) bool {
+	validStart := partNumber.startIndex - 1
+	validEnd := partNumber.endIndex + 1
 
-	if err != nil {
-		panic(err)
+	if symbol.startIndex >= validStart && symbol.startIndex <= validEnd {
+		return true
 	}
 
-	defer file.Close()
-
-	sc := bufio.NewScanner(file)
-	lines := make([]string, 0)
-
-	// Read through 'tokens' until an EOF is encountered.
-	for sc.Scan() {
-		lines = append(lines, sc.Text())
+	if symbol.endIndex >= validStart && symbol.endIndex <= validEnd {
+		return true
 	}
 
-	return lines
+	return false
+}
+
+func findNumbers(line string) []PartNumber {
+	re := regexp.MustCompile(`\d+`)
+	matches := re.FindAllStringIndex(line, -1)
+
+	var partNumbers []PartNumber
+	for _, match := range matches {
+		startIndex, endIndex := getMatch(match)
+		number, _ := strconv.Atoi(line[startIndex:endIndex])
+
+		partNumbers = append(partNumbers, PartNumber{number, startIndex, endIndex - 1})
+	}
+
+	return partNumbers
+}
+
+func findSpecialCharacters(line string) []Symbol {
+	re := regexp.MustCompile(`[^A-Za-z0-9\.]`)
+	matches := re.FindAllStringIndex(line, -1)
+
+	var symbols []Symbol
+	for _, match := range matches {
+		symbols = append(symbols, Symbol{match[0], match[1] - 1})
+	}
+
+	return symbols
+}
+
+func getMatch(match []int) (int, int) {
+	return match[0], match[1]
 }
