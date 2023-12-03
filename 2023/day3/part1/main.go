@@ -5,15 +5,18 @@ import (
 	"strconv"
 )
 
-type Symbol struct {
+type Indexable struct {
 	startIndex int
 	endIndex   int
 }
 
+type Symbol struct {
+	Indexable
+}
+
 type PartNumber struct {
-	number     int
-	startIndex int
-	endIndex   int
+	number int
+	Indexable
 }
 
 func Run(input []string) int {
@@ -43,9 +46,9 @@ func Run(input []string) int {
 	return sum
 }
 
-func (partNumber PartNumber) isValid(nearSymbols []Symbol) bool {
+func (p PartNumber) isValid(nearSymbols []Symbol) bool {
 	for _, symbol := range nearSymbols {
-		if symbol.isAdjacentTo(partNumber) {
+		if symbol.isAdjacentTo(p.Indexable) {
 			return true
 		}
 	}
@@ -53,15 +56,15 @@ func (partNumber PartNumber) isValid(nearSymbols []Symbol) bool {
 	return false
 }
 
-func (symbol Symbol) isAdjacentTo(partNumber PartNumber) bool {
-	validStart := partNumber.startIndex - 1
-	validEnd := partNumber.endIndex + 1
+func (i Indexable) isAdjacentTo(i2 Indexable) bool {
+	validStart := i2.startIndex - 1
+	validEnd := i2.endIndex + 1
 
-	if symbol.startIndex >= validStart && symbol.startIndex <= validEnd {
+	if i.startIndex >= validStart && i.startIndex <= validEnd {
 		return true
 	}
 
-	if symbol.endIndex >= validStart && symbol.endIndex <= validEnd {
+	if i.endIndex >= validStart && i.endIndex <= validEnd {
 		return true
 	}
 
@@ -77,7 +80,7 @@ func findNumbers(line string) []PartNumber {
 		startIndex, endIndex := getMatch(match)
 		number, _ := strconv.Atoi(line[startIndex:endIndex])
 
-		partNumbers = append(partNumbers, PartNumber{number, startIndex, endIndex - 1})
+		partNumbers = append(partNumbers, PartNumber{number, Indexable{startIndex, endIndex - 1}})
 	}
 
 	return partNumbers
@@ -89,7 +92,7 @@ func findSpecialCharacters(line string) []Symbol {
 
 	var symbols []Symbol
 	for _, match := range matches {
-		symbols = append(symbols, Symbol{match[0], match[1] - 1})
+		symbols = append(symbols, Symbol{Indexable{match[0], match[1] - 1}})
 	}
 
 	return symbols
