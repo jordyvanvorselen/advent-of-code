@@ -6,6 +6,7 @@ import (
 	day2part1 "aoc/2023/day2/part1"
 	day2part2 "aoc/2023/day2/part2"
 	day3part1 "aoc/2023/day3/part1"
+	day3part2 "aoc/2023/day3/part2"
 	"fmt"
 )
 
@@ -20,4 +21,5 @@ func main() {
 
 	fmt.Println("\nDay 3")
 	fmt.Println("Part 1: ", day3part1.Run(readFile("day3/input/data")))
+	fmt.Println("Part 2: ", day3part2.Run(readFile("day3/input/data")))
 }
