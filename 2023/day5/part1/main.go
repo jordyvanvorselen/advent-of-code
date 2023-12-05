@@ -9,7 +9,6 @@ func Run(input []string) int {
 	seeds, categoryMappings := parsers.Parse(input)
 	var results []int
 
-	// 0 -> 2774465761
 	for _, seed := range seeds {
 		results = append(results, seed.FindLocation(categoryMappings))
 	}
