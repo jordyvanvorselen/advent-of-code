@@ -1,9 +1,19 @@
 package utils
 
-import "strconv"
+func FindMinInSlice(slice []int) int {
+	if len(slice) == 0 {
+		return 0
+	}
 
-func ToInt(s string) int {
-	result, _ := strconv.Atoi(s)
+	// Initialize min with the first element of the slice
+	min := slice[0]
 
-	return result
+	// Iterate through the rest of the elements
+	for _, num := range slice {
+		if num < min {
+			min = num
+		}
+	}
+
+	return min
 }
