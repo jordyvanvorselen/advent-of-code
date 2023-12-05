@@ -36,4 +36,20 @@ func TestFindDestination(t *testing.T) {
 			t.Errorf("got %d but expected %d", result, expected)
 		}
 	})
+
+	t.Run("with other dataset", func(t *testing.T) {
+		source := 14
+		expected := 14
+		input := RangeMapping{
+			DestinationRangeStart: 0,
+			SourceRangeStart:      15,
+			RangeLength:           37,
+		}
+
+		result := input.FindDestination(source)
+
+		if result != expected {
+			t.Errorf("got %d but expected %d", result, expected)
+		}
+	})
 }
