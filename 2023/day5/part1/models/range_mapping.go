@@ -8,13 +8,12 @@ type RangeMapping struct {
 	RangeLength           int
 }
 
-func (rm RangeMapping) FindDestination(seed Seed) int {
-	if !slices.Contains(rm.sourceRange(), seed.Number) {
-		return seed.Number
+func (rm RangeMapping) FindDestination(source int) int {
+	if !slices.Contains(rm.sourceRange(), source) {
+		return source
 	}
 
-	// WIP
-	return 0
+	return rm.destinationRange()[findIndex(source, rm.sourceRange())]
 }
 
 func (rm RangeMapping) destinationRange() []int {
@@ -33,4 +32,14 @@ func createRange(start int, end int) []int {
 	}
 
 	return result
+}
+
+func findIndex(value int, list []int) int {
+	for i, v := range list {
+		if v == value {
+			return i
+		}
+	}
+
+	return -1
 }

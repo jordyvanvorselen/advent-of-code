@@ -2,16 +2,17 @@ package part1
 
 import (
 	"2023/day5/part1/parsers"
+	"2023/day5/part1/utils"
 )
 
 func Run(input []string) int {
-	var result int
+	seeds, categoryMappings := parsers.Parse(input)
+	var results []int
 
-	seeds, rangeMappings := parsers.Parse(input)
-
+	// 0 -> 2774465761
 	for _, seed := range seeds {
-		location := seed.FindLocation()
+		results = append(results, seed.FindLocation(categoryMappings))
 	}
 
-	return result
+	return utils.FindMinInSlice(results)
 }

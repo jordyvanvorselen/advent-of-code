@@ -8,9 +8,15 @@ import (
 
 func TestParse(t *testing.T) {
 	expectedSeeds := []models.Seed{{79}, {14}, {55}, {13}}
-	expectedRangeMappings := []models.RangeMapping{
-		{DestinationRangeStart: 50, SourceRangeStart: 98, RangeLength: 2},
-		{DestinationRangeStart: 52, SourceRangeStart: 50, RangeLength: 48},
+	expectedCategoryMappings := []models.CategoryMapping{
+		{
+			From: models.Category("seed"),
+			To:   models.Category("soil"),
+			Ranges: []models.RangeMapping{
+				{DestinationRangeStart: 50, SourceRangeStart: 98, RangeLength: 2},
+				{DestinationRangeStart: 52, SourceRangeStart: 50, RangeLength: 48},
+			},
+		},
 	}
 	input := []string{
 		"seeds: 79 14 55 13",
@@ -20,13 +26,13 @@ func TestParse(t *testing.T) {
 		"52 50 48",
 	}
 
-	resultSeeds, resultRangeMappings := Parse(input)
+	resultSeeds, resultCategoryMappings := Parse(input)
 
 	if !reflect.DeepEqual(resultSeeds, expectedSeeds) {
-		t.Errorf("got %d but expected %d", resultSeeds, expectedSeeds)
+		t.Errorf("got %+v but expected %+v", resultSeeds, expectedSeeds)
 	}
 
-	if !reflect.DeepEqual(resultRangeMappings, expectedRangeMappings) {
-		t.Errorf("got %d but expected %d", resultRangeMappings, expectedRangeMappings)
+	if !reflect.DeepEqual(resultCategoryMappings, expectedCategoryMappings) {
+		t.Errorf("got %+v but expected %+v", resultCategoryMappings, expectedCategoryMappings)
 	}
 }

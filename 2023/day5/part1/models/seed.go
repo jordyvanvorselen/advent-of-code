@@ -4,12 +4,12 @@ type Seed struct {
 	Number int
 }
 
-func (s Seed) FindLocation(rangeMappings []RangeMapping) int {
-	var location int
+func (s Seed) FindLocation(categoryMappings []CategoryMapping) int {
+	sourceForNextMapping := s.Number
 
-	for _, rm := range rangeMappings {
-		destination := rm.FindDestination(s)
+	for _, cm := range categoryMappings {
+		sourceForNextMapping = cm.FindDestination(sourceForNextMapping)
 	}
 
-	return location
+	return sourceForNextMapping
 }

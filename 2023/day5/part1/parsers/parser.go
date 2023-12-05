@@ -2,13 +2,12 @@ package parsers
 
 import (
 	"2023/day5/part1/models"
-	"strconv"
 	"strings"
 )
 
-func Parse(lines []string) ([]models.Seed, []models.RangeMapping) {
+func Parse(lines []string) ([]models.Seed, []models.CategoryMapping) {
 	var seeds []models.Seed
-	var mappings []models.RangeMapping
+	var mappings []models.CategoryMapping
 
 	blocks := make(map[int][]string)
 	var blockCount int
@@ -22,21 +21,19 @@ func Parse(lines []string) ([]models.Seed, []models.RangeMapping) {
 		blocks[blockCount] = append(blocks[blockCount], line)
 	}
 
-	for _, line := range blocks {
-		if strings.HasPrefix(line[0], "seeds") {
-			seeds = append(seeds, parseSeeds(line[0])...)
+	for i := 0; i < len(blocks); i++ {
+		block := blocks[i]
+
+		if strings.HasPrefix(block[0], "seeds") {
+			seeds = append(seeds, parseSeeds(block[0])...)
 		}
 
-		if strings.HasSuffix(line[0], " map:") {
-			mappings = append(mappings, parseRangeMappings(line)...)
+		if strings.HasSuffix(block[0], " map:") {
+			rangeMappings := parseRangeMappings(block)
+			from, to := ParseCategories(block[0])
+			mappings = append(mappings, models.CategoryMapping{From: from, To: to, Ranges: rangeMappings})
 		}
 	}
 
 	return seeds, mappings
-}
-
-func toInt(s string) int {
-	result, _ := strconv.Atoi(s)
-
-	return result
 }
