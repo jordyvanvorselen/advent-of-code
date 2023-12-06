@@ -33,5 +33,4 @@ func Run(input []string) int {
 	wg.Wait()
 
 	return utils.FindMinInSlice(results)
-
 }
