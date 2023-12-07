@@ -14,7 +14,7 @@ func (h Hand) Type() HandType {
 
 	delete(charOccurs, "J")
 
-	if len(charOccurs) == 1 {
+	if typeOfCards := len(charOccurs); typeOfCards == 1 || typeOfCards == 0 {
 		return FiveOfAKind
 	}
 
