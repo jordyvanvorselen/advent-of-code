@@ -1,4 +1,4 @@
-package part1
+package part2
 
 import (
 	"testing"
@@ -6,7 +6,7 @@ import (
 
 func TestRun(t *testing.T) {
 	t.Run("camels are beautiful, but oasis...", func(t *testing.T) {
-		expected := 114
+		expected := 2
 		input := []string{
 			"0 3 6 9 12 15",
 			"1 3 6 10 15 21",
