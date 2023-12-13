@@ -7,7 +7,7 @@ func TestConditionRecord(t *testing.T) {
 		expected := 4
 		input := ConditionRecord{
 			Raw:    []string{".", "?", "?", ".", ".", "?", "?", ".", ".", ".", "?", "#", "#", "."},
-			Broken: []Group{1, 1, 3},
+			Broken: []int{1, 1, 3},
 		}
 
 		result := input.PossibleBrokenCombinations()
@@ -21,7 +21,7 @@ func TestConditionRecord(t *testing.T) {
 		expected := 10
 		input := ConditionRecord{
 			Raw:    []string{"?", "#", "#", "#", "?", "?", "?", "?", "?", "?", "?", "?"},
-			Broken: []Group{3, 2, 1},
+			Broken: []int{3, 2, 1},
 		}
 
 		result := input.PossibleBrokenCombinations()

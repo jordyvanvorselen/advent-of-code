@@ -6,81 +6,70 @@ import (
 
 type ConditionRecord struct {
 	Raw    []string
-	Broken []Group
+	Broken []int
 }
 
-type Group int
-
 func (c ConditionRecord) PossibleBrokenCombinations() int {
-	var startIndex int
 	var result int
+	doesMatch := false
+	startPositions := []int{0}
 
-	for {
-		fits := false
-		fits, startIndex = c.CombinationIsPossible(startIndex)
+	for i, _ := range c.Broken {
+		for _, start := range startPositions {
+			doesMatch, startPositions = c.brokenListDoesMatch(c.Broken[i:], start)
 
-		if !fits {
-			break
+			if doesMatch {
+				result += len(startPositions)
+			}
 		}
-
-		result++
 	}
 
 	return result
 }
 
-func (c ConditionRecord) CombinationIsPossible(startIdx int) (bool, int) {
-	newStartIdx := -1
+func (c ConditionRecord) brokenListDoesMatch(broken []int, startPosition int) (bool, []int) {
+	var newStartPositions []int
 
-	startIdxForNextChar := startIdx
+	if startPosition >= len(c.Raw) {
+		return false, []int{}
+	}
 
-	for brokenIdx, b := range c.Broken {
-		rawLeft := c.Raw[startIdxForNextChar:]
-		fitsInSomewhere := false
+	raw := c.Raw[startPosition:]
 
-		for charIdx, _ := range rawLeft {
-			if b.fitsInGap(rawLeft, charIdx) {
-				startIdxForNextChar = startIdxForNextChar + charIdx + int(b) + 1
-				fitsInSomewhere = true
+	for brokenIdx, b := range broken {
+		brokenDidMatch := false
 
-				if newStartIdx == -1 {
-					newStartIdx = startIdx + charIdx + int(b)
+		for charIdx := 0; charIdx < len(raw)-b+1; charIdx++ {
+			var charLeft string
+			var charRight string
+
+			chars := c.Raw[charIdx : charIdx+b]
+
+			if charIdx != 0 {
+				charLeft = c.Raw[charIdx-1]
+			}
+
+			if charIdx < len(c.Raw)-b {
+				charRight = c.Raw[charIdx+b]
+			}
+
+			if fitsInSpot(charLeft, charRight, chars) {
+				if brokenIdx == 0 {
+					newStartPositions = append(newStartPositions, startPosition+charIdx+b+1)
 				}
 
-				break
+				brokenDidMatch = true
 			}
 		}
 
-		if !fitsInSomewhere {
-			break
-		}
-
-		if brokenIdx == len(c.Broken)-1 {
-			return true, newStartIdx
+		if !brokenDidMatch {
+			return false, []int{}
 		}
 	}
 
-	return false, 0
+	return true, newStartPositions
 }
 
-func (g Group) fitsInGap(raw []string, index int) bool {
-	if len(raw) < index+int(g) {
-		return false
-	}
-
-	gap := raw[index : index+int(g)]
-
-	if slices.Contains(gap, ".") {
-		return false
-	}
-
-	// if there is a character after the gap
-	if len(raw) > index+int(g)+1 {
-		maybeDefect := raw[index+int(g) : index+int(g)+1]
-		if maybeDefect[0] == "#" {
-			return false
-		}
-	}
-
-	return true
+func fitsInSpot(charLeft string, charRight string, chars []string) bool {
+	return charLeft != "#" && charRight != "#" && !slices.Contains(chars, ".")
 }

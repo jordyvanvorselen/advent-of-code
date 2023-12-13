@@ -10,7 +10,7 @@ func TestParse(t *testing.T) {
 	expected := []models.ConditionRecord{
 		{
 			Raw:    []string{"#", ".", "#", ".", "#", "#", "#"},
-			Broken: []models.Group{1, 1, 3},
+			Broken: []int{1, 1, 3},
 		},
 	}
 

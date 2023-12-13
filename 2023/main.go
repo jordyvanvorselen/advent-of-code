@@ -23,7 +23,8 @@ import (
 	//day10part2 "2023/day10/part2"
 	//day11part1 "2023/day11/part1"
 	//day11part2 "2023/day11/part2"
-	day12part1 "2023/day12/part1"
+	//day12part1 "2023/day12/part1"
+	day13part1 "2023/day13/part1"
 	"fmt"
 )
 
@@ -73,6 +74,10 @@ func main() {
 	//fmt.Println("Part 2: ", day11part2.Run(readFile("day11/input/data"), 1000000))
 
 	//fmt.Println("\nDay 12")
-	fmt.Println("Part 1: ", day12part1.Run(readFile("day12/input/data")))
+	//fmt.Println("Part 1: ", day12part1.Run(readFile("day12/input/data")))
+	//fmt.Println("Part 2: ", day12part2.Run(readFile("day12/input/data"), 1000000))
+
+	//fmt.Println("\nDay 13")
+	fmt.Println("Part 1: ", day13part1.Run(readFile("day13/input/data")))
 	//fmt.Println("Part 2: ", day12part2.Run(readFile("day12/input/data"), 1000000))
 }

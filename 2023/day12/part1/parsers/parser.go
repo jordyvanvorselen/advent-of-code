@@ -14,8 +14,8 @@ func Parse(lines []string) []models.ConditionRecord {
 		inputs := strings.Split(line, " ")
 
 		raw := strings.Split(inputs[0], "")
-		broken := lo.Map(strings.Split(inputs[1], ","), func(broken string, index int) models.Group {
-			return models.Group(utils.ToInt(broken))
+		broken := lo.Map(strings.Split(inputs[1], ","), func(broken string, index int) int {
+			return utils.ToInt(broken)
 		})
 
 		result = append(result, models.ConditionRecord{
