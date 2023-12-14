@@ -1,8 +1,8 @@
 package part1
 
 import (
+	"2023/day14/part1/models"
 	"2023/day14/part1/parsers"
-	"fmt"
 )
 
 func Run(input []string) int {
@@ -11,9 +11,15 @@ func Run(input []string) int {
 	lists := parsers.Parse(input)
 
 	for _, list := range lists {
-		newList := list.TiltNorth()
+		newList := list.Tilt(models.NORTH)
 
-		fmt.Println(newList)
+		for _, col := range newList.Columns {
+			for i, c := range col {
+				if string(c) == "O" {
+					result += len(col) - i
+				}
+			}
+		}
 	}
 
 	return result
