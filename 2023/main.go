@@ -77,13 +77,13 @@ func main() {
 
 	//fmt.Println("\nDay 12")
 	//fmt.Println("Part 1: ", day12part1.Run(readFile("day12/input/data")))
-	//fmt.Println("Part 2: ", day12part2.Run(readFile("day12/input/data"), 1000000))
+	//fmt.Println("Part 2: ", day12part2.Run(readFile("day12/input/data")))
 
 	//fmt.Println("\nDay 13")
 	//fmt.Println("Part 1: ", day13part1.Run(readFile("day13/input/data")))
-	//fmt.Println("Part 2: ", day13part2.Run(readFile("day13/input/data"), 1000000))
+	//fmt.Println("Part 2: ", day13part2.Run(readFile("day13/input/data")))
 
 	//fmt.Println("\nDay 14")
 	fmt.Println("Part 1: ", day14part1.Run(readFile("day14/input/data")))
-	//fmt.Println("Part 2: ", day14part2.Run(readFile("day14/input/data"), 1000000))
+	//fmt.Println("Part 2: ", day14part2.Run(readFile("day14/input/data")))
 }
