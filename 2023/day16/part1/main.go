@@ -9,11 +9,11 @@ import (
 func Run(input []string) int {
 	grid := parsers.Parse(input)
 
-	start := models.Step{Tile: grid["0,0"], Direction: models.DOWN}
+	start := models.Step{Tile: models.Tile{X: -1, Y: 0, Type: models.EMPTY}, Direction: models.RIGHT}
 
-	marked := []models.Tile{start.Tile}
-
+	var marked []models.Tile
 	var cache []models.Step
+
 	steps := []models.Step{start}
 
 	for {
