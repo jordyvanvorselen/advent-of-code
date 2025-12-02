@@ -1,8 +1,8 @@
-defmodule Moves do
+defmodule SecretEntrance do
   @type direction :: :R | :L
   @type move :: {direction(), non_neg_integer()}
 
-  def main do
+  def calculate_passwords do
     part1("lib/day1/input/data")
     part2("lib/day1/input/data")
   end
