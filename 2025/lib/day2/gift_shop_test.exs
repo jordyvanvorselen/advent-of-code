@@ -1,6 +1,14 @@
 defmodule GiftShopTest do
   use ExUnit.Case
 
+  describe "part1/1" do
+    test "calculates the sum of invalid identifiers from the input file" do
+      result = GiftShop.part1("lib/day2/input/test_data")
+
+      assert result == 1_227_775_554
+    end
+  end
+
   describe "parse_input/1" do
     test "parses comma-separated values into a list" do
       input = "5-10,15-20,25-30"

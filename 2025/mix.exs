@@ -8,7 +8,8 @@ defmodule Aoc.MixProject do
       elixir: "~> 1.19",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
-      test_paths: ["lib"]
+      test_paths: ["lib"],
+      aliases: aliases()
     ]
   end
 
@@ -16,6 +17,12 @@ defmodule Aoc.MixProject do
   def application do
     [
       extra_applications: [:logger]
+    ]
+  end
+
+  defp aliases do
+    [
+      day2: "run -e 'GiftShop.main()'"
     ]
   end
 
