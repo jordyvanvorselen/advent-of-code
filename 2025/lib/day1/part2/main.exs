@@ -10,22 +10,20 @@ defmodule Moves do
         new_position =
           case direction do
             :R -> rem(current_position + distance, 100)
-            :L -> rem(current_position - distance + 100, 100)
+            :L -> Integer.mod(current_position - distance, 100)
           end
 
-        number_of_times_passed_zero =
+        times_crossed_zero =
           case direction do
             :R -> div(current_position + distance, 100)
-            :L -> div(distance - current_position + 99, 100)
+            :L when distance >= current_position and current_position > 0 ->
+              div(distance - current_position, 100) + 1
+            :L when current_position == 0 ->
+              div(distance, 100)
+            :L -> 0
           end
 
-        times_ended_on_zero =
-          case new_position do
-            0 -> zero_count + 1
-            _ -> zero_count
-          end
-
-        {new_position, times_ended_on_zero + number_of_times_passed_zero}
+        {new_position, zero_count + times_crossed_zero}
       end)
 
     zero_count
