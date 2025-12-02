@@ -1,6 +1,14 @@
 defmodule GiftShopTest do
   use ExUnit.Case
 
+  describe "parse_input/1" do
+    test "parses comma-separated values into a list" do
+      input = "5-10,15-20,25-30"
+      expected_output = ["5-10", "15-20", "25-30"]
+      assert GiftShop.parse_input(input) == expected_output
+    end
+  end
+
   describe "range_for/1" do
     test "returns valid range for two numbers" do
       assert GiftShop.range_for("5-10") == 5..10
