@@ -9,6 +9,14 @@ defmodule GiftShopTest do
     end
   end
 
+  describe "part2/1" do
+    test "placeholder for part2 tests" do
+      result = GiftShop.part2("lib/day2/input/test_data")
+
+      assert result == 4_174_379_265
+    end
+  end
+
   describe "parse_input/1" do
     test "parses comma-separated values into a list" do
       input = "5-10,15-20,25-30"
@@ -31,6 +39,29 @@ defmodule GiftShopTest do
         ] do
       test "#{value} returns #{expected}" do
         assert GiftShop.valid_identifier?(unquote(value)) == unquote(expected)
+      end
+    end
+  end
+
+  describe "valid_identifier_v2?/1" do
+    for {value, expected} <- [
+          {1_111_111, false},
+          {11, false},
+          {22, false},
+          {99, false},
+          {111, false},
+          {999, false},
+          {1010, false},
+          {1_188_511_885, false},
+          {222_222, false},
+          {446_446, false},
+          {38_593_859, false},
+          {565_656, false},
+          {824_824_824, false},
+          {2_121_212_121, false}
+        ] do
+      test "#{value} returns #{expected}" do
+        assert GiftShop.valid_identifier_v2?(unquote(value)) == unquote(expected)
       end
     end
   end

@@ -1,14 +1,26 @@
 defmodule GiftShop do
-  def main, do: part1("lib/day2/input/data")
+  def main, do: part2("lib/day2/input/data")
 
   def part1(path) do
-    Path.expand(path)
+    path
+    |> Path.expand()
     |> File.read!()
     |> parse_input()
     |> Enum.flat_map(&range_for/1)
     |> Enum.reject(&valid_identifier?/1)
     |> Enum.sum()
     |> IO.inspect(label: "Part 1 Result")
+  end
+
+  def part2(path) do
+    path
+    |> Path.expand()
+    |> File.read!()
+    |> parse_input()
+    |> Enum.flat_map(&range_for/1)
+    |> Enum.reject(&valid_identifier_v2?/1)
+    |> Enum.sum()
+    |> IO.inspect(label: "Part 2 Result")
   end
 
   def parse_input(input) do
@@ -35,5 +47,35 @@ defmodule GiftShop do
     str
     |> String.split_at(div(len, 2))
     |> then(fn {first, second} -> first != second end)
+  end
+
+  def valid_identifier_v2?(number) do
+    number
+    |> Integer.to_string()
+    |> is_repeating_pattern?()
+    |> Kernel.not()
+  end
+
+  defp is_repeating_pattern?(str) do
+    str
+    |> String.length()
+    |> divisors()
+    |> Enum.any?(fn chunk_size -> repeats_with_size?(str, chunk_size) end)
+  end
+
+  defp divisors(1), do: []
+
+  defp divisors(len) do
+    1..div(len, 2)
+    |> Enum.filter(fn d -> rem(len, d) == 0 end)
+  end
+
+  defp repeats_with_size?(str, chunk_size) do
+    str
+    |> String.graphemes()
+    |> Enum.chunk_every(chunk_size)
+    |> Enum.uniq()
+    |> length()
+    |> Kernel.==(1)
   end
 end
