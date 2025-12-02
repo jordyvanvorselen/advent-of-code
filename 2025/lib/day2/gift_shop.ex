@@ -1,5 +1,8 @@
 defmodule GiftShop do
-  def main, do: part2("lib/day2/input/data")
+  def main do
+    part1("lib/day2/input/data")
+    part2("lib/day2/input/data")
+  end
 
   def part1(path) do
     path

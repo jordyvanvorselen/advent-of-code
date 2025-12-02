@@ -22,6 +22,7 @@ defmodule Aoc.MixProject do
 
   defp aliases do
     [
+      day1: "run -e 'Moves.main()'",
       day2: "run -e 'GiftShop.main()'"
     ]
   end
