@@ -23,7 +23,8 @@ defmodule Aoc.MixProject do
   defp aliases do
     [
       day1: "run -e 'SecretEntrance.calculate_passwords()'",
-      day2: "run -e 'GiftShop.sum_of_wrong_identifiers()'"
+      day2: "run -e 'GiftShop.sum_of_wrong_identifiers()'",
+      day3: "run -e 'Lobby.total_output_joltage()'"
     ]
   end
 
