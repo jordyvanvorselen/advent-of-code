@@ -9,6 +9,14 @@ defmodule LobbyTest do
     end
   end
 
+  describe "part2/1" do
+    test "returns total output joltage" do
+      result = Lobby.part2("lib/day3/input/test_data")
+
+      assert result == 3_121_910_778_619
+    end
+  end
+
   describe "find_largest_numbers_within_battery/1" do
     for {value, expected} <- [
           {~w(9 8 7 6 5 4 3 2 1 1 1 1 1 1 1), [{"9", 0}, {"8", 1}]},
