@@ -24,7 +24,8 @@ defmodule Aoc.MixProject do
     [
       day1: "run -e 'SecretEntrance.calculate_passwords()'",
       day2: "run -e 'GiftShop.sum_of_wrong_identifiers()'",
-      day3: "run -e 'Lobby.total_output_joltage()'"
+      day3: "run -e 'Lobby.total_output_joltage()'",
+      day4: "run -e 'PrintingDepartment.total_accessible_paper_rolls()'"
     ]
   end
 
