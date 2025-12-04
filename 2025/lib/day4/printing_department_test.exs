@@ -9,6 +9,14 @@ defmodule PrintingDepartmentTest do
     end
   end
 
+  describe "part2/1" do
+    test "returns how many paper rolls are accessible" do
+      result = PrintingDepartment.part2("lib/day4/input/test_data")
+
+      assert result == 43
+    end
+  end
+
   describe "get_positions_in_line/3" do
     test "returns positions in line including middle" do
       line = "ABCDEFGH"
