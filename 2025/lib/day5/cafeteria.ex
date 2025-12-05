@@ -20,6 +20,10 @@ defmodule Cafeteria do
     |> Path.expand()
     |> File.read!()
     |> parse_input()
+    |> then(fn {ranges, _numbers} ->
+      count_total_amount_of_numbers_in_ranges(ranges)
+    end)
+    |> IO.inspect(label: "Part 2 Result")
   end
 
   def parse_input(input) do
@@ -27,6 +31,22 @@ defmodule Cafeteria do
     |> String.trim()
     |> String.split("\n", trim: true)
     |> Enum.split_with(fn elem -> String.contains?(elem, "-") end)
+  end
+
+  def count_total_amount_of_numbers_in_ranges(ranges) do
+    ranges
+    |> Enum.map(fn range ->
+      [min, max] = String.split(range, "-") |> Enum.map(&String.to_integer/1)
+      {min, max}
+    end)
+    |> Enum.sort()
+    |> Enum.reduce([], fn
+      {min, max}, [] -> [{min, max}]
+      {min, max}, [{prev_min, prev_max} | rest] when min <= prev_max + 1 ->
+        [{prev_min, max(max, prev_max)} | rest]
+      range, acc -> [range | acc]
+    end)
+    |> Enum.reduce(0, fn {min, max}, acc -> acc + (max - min + 1) end)
   end
 
   def count_numbers_in_ranges(numbers, ranges) do
